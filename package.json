@@ -18,7 +18,7 @@
     "watch": "pnpm --parallel watch"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.29.8",
+    "@changesets/cli": "^2.30.0",
     "@eslint/js": "^9.39.2",
     "@stylistic/eslint-plugin": "^5.6.1",
     "@types/jest": "^30.0.0",
