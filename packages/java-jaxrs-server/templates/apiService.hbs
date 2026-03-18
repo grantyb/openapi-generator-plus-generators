@@ -12,6 +12,16 @@ public interface {{className name}}ApiService {
 	
 	{{#each operations}}
 	{{#each (nonDefaultResponses)}}
+	/**
+	{{#if description}}
+	 * {{#indent ' * '}}{{{md description}}}{{/indent}}
+	{{/if}}
+	{{#if isCatchAll}}
+	 * <p>Sends the response status provided in the constructor.</p>
+	{{else}}
+	 * <p>Sends a response with a {{code}} status.</p>
+	{{/if}}
+	 */
 	class {{{className (concat ../name '_' code)}}}Exception extends Exception {
 
 		private static final long serialVersionUID = 1L;
@@ -58,7 +68,6 @@ int responseCode
 		}
 
 		{{/if}}
-
 		{{>hooks/apiServiceException operation=..}}
 	}
 
