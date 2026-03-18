@@ -1,5 +1,11 @@
 # @openapi-generator-plus/java-jaxrs-server-generator
 
+## 3.10.0
+
+### Minor Changes
+
+- 67e3914: Add documentation to generated API service exceptions.
+
 ## 3.9.1
 
 ### Patch Changes
