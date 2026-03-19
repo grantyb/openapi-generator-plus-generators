@@ -608,6 +608,11 @@ export default function createGenerator(config: CodegenConfig, context: JavaGene
 				}
 			})
 			hbs.registerHelper('setter', function(property: CodegenProperty) {
+				const isPrimitiveBool = property.schema.schemaType === CodegenSchemaType.BOOLEAN && property.required && !property.nullable
+				if (generatorOptions.useLombok && isPrimitiveBool) {
+					const identifier = context.generator().toIdentifier(property.name).replace(/^is(?=[A-Z])/, '')
+					return `set${capitalize(identifier)}`
+				}
 				return `set${capitalize(context.generator().toIdentifier(property.name))}`
 			})
 			hbs.registerHelper('escapeString', function(value: string) {
