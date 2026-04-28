@@ -30,6 +30,25 @@ test('pojo with useLombok uses @EqualsAndHashCode annotation instead of manual e
 	})
 })
 
+test('pojo with boolean property starting with “is” uses correct setter method name in Lombok mode', async() => {
+	const result = await createCodegenResult(path.resolve(__dirname, 'pojo-equals.yml'), {
+		...DEFAULT_CONFIG,
+		useLombok: true,
+	}, myCreateGenerator)
+	await testGenerate(result, {
+		testName: 'pojo-equals/boolean-with-is-prefix',
+		postProcess: async(basePath) => {
+			const content = await fs.promises.readFile(path.join(basePath, MODEL_PATH, 'FileData.java'), 'utf-8')
+			expect(content).toContain('setImage(isImage)')
+			expect(content).not.toContain('setIsImage(isImage)')
+			expect(content).toContain('setPasswordProtect(passwordProtect)')
+			expect(content).not.toContain('setPasswordProtect(isPasswordProtect)')
+			expect(content).not.toContain('setIsPasswordProtect(passwordProtect)')
+			expect(content).not.toContain('setIsPasswordProtect(isPasswordProtect)')
+		},
+	})
+})
+
 test('pojo with binary property uses Arrays.equals in equals method', async() => {
 	const result = await createCodegenResult(path.resolve(__dirname, 'pojo-equals.yml'), DEFAULT_CONFIG, myCreateGenerator)
 	await testGenerate(result, {
