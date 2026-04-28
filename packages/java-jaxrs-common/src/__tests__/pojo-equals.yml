@@ -18,9 +18,18 @@ components:
   schemas:
     FileData:
       type: object
+      required:
+        - name
+        - content
+        - isImage
+        - passwordProtect
       properties:
         content:
           type: string
           format: binary
         name:
           type: string
+        isImage:
+          type: boolean
+        passwordProtect:
+          type: boolean
