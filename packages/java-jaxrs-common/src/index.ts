@@ -3,7 +3,7 @@ import { CodegenOptionsJava } from './types'
 import path from 'path'
 import Handlebars from 'handlebars'
 import { loadTemplates, emit, registerStandardHelpers, sourcePosition, ActualHelperOptions } from '@openapi-generator-plus/handlebars-templates'
-import { javaLikeGenerator, ConstantStyle, options as javaLikeOptions, JavaLikeContext, EnumMemberStyle } from '@openapi-generator-plus/java-like-generator-helper'
+import { javaLikeGenerator, ConstantStyle, options as javaLikeOptions, JavaLikeContext, EnumMemberStyle, isNativeArray } from '@openapi-generator-plus/java-like-generator-helper'
 import { capitalize, commonGenerator, configBoolean, configNumber, configObject, configString, configStringArray, debugStringify, nullableConfigString } from '@openapi-generator-plus/generator-common'
 import * as idx from '@openapi-generator-plus/indexed-type'
 
@@ -621,6 +621,9 @@ export default function createGenerator(config: CodegenConfig, context: JavaGene
 				const isPrimitiveBool = property.schema.schemaType === CodegenSchemaType.BOOLEAN && property.required && !property.nullable
 				const identifier = lombokAwareIdentifier(property, isPrimitiveBool)
 				return `set${capitalize(identifier)}`
+			})
+			hbs.registerHelper('isNativeArray', function(nativeType: CodegenNativeType | string | null) {
+				return isNativeArray(nativeType)
 			})
 			hbs.registerHelper('escapeString', function(value: string) {
 				// eslint-disable-next-line prefer-rest-params

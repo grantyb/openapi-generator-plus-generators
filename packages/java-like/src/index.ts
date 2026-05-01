@@ -1,4 +1,4 @@
-import { CodegenGenerator, CodegenSchemaType, CodegenConfig, CodegenGeneratorContext, CodegenSchemaPurpose } from '@openapi-generator-plus/types'
+import { CodegenGenerator, CodegenSchemaType, CodegenConfig, CodegenGeneratorContext, CodegenSchemaPurpose, CodegenNativeType } from '@openapi-generator-plus/types'
 import { pascalCase, camelCase, configString } from '@openapi-generator-plus/generator-common'
 import { constantCase } from 'change-case'
 import { commonGenerator } from '@openapi-generator-plus/generator-common'
@@ -35,6 +35,11 @@ export function classCamelCase(value: string): string {
 
 export function identifierCamelCase(value: string): string {
 	return identifierSafe(camelCase(identifierSafe(value)))
+}
+
+export function isNativeArray(nativeType: CodegenNativeType | string | null | undefined): boolean {
+	const nativeTypeString = typeof nativeType === 'string' ? nativeType : nativeType?.nativeType
+	return nativeTypeString !== undefined && nativeTypeString.trim().endsWith('[]')
 }
 
 export const enum ConstantStyle {
